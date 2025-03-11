@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hash 操作示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            max-width: calc(100% - 270px); /* 增加间距，防止内容被截断 */
+            margin-right: 250px; /* 添加右边距 */
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .method {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        .method h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .method pre {
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            font-family: Consolas, monospace; /* 添加 Consolas 字体 */
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+            font-weight: bold;
+        }
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            padding: 20px;
+            border-left: 1px solid #eee;
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #333;
+            font-family: Consolas, monospace;
+        }
+        .sidebar a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            <h1>Redis Hash 操作示例</h1>
+            
+            <div class="method" id="put">
+                <h3><code>put(H key, HK hashKey, HV value)</code></h3>
+                <p>向指定的 Hash 中添加或更新一个字段及其对应的值。</p>
+                <pre>redisTemplate.opsForHash().put("user:1001", "name", "John");</pre>
+            </div>
+            
+            <div class="method" id="get">
+                <h3><code>get(H key, Object hashKey)</code></h3>
+                <p>获取指定 Hash 中某个字段的值。</p>
+                <pre>String name = (String) redisTemplate.opsForHash().get("user:1001", "name");</pre>
+            </div>
+            
+            <div class="method" id="putAll">
+                <h3><code>putAll(H key, Map&lt;? extends HK, ? extends HV&gt; m)</code></h3>
+                <p>批量向指定的 Hash 中添加多个字段及其对应的值。</p>
+                <pre>
+Map<String, String> userMap = new HashMap<>();
+userMap.put("name", "John");
+userMap.put("age", "30");
+redisTemplate.opsForHash().putAll("user:1001", userMap);</pre>
+            </div>
+            
+            <div class="method" id="entries">
+                <h3><code>entries(H key)</code></h3>
+                <p>获取 Hash 中的所有字段及其对应的值。</p>
+                <pre>Map&lt;Object, Object&gt; user = redisTemplate.opsForHash().entries("user:1001");</pre>
+            </div>
+
+            <div class="method" id="hasKey">
+                <h3><code>hasKey(H key, Object hashKey)</code></h3>
+                <p>判断指定的 Hash 中是否存在某个字段。</p>
+                <pre>Boolean exists = redisTemplate.opsForHash().hasKey("user:1001", "name");</pre>
+            </div>
+
+            <div class="method" id="delete">
+                <h3><code>delete(H key, Object... hashKeys)</code></h3>
+                <p>删除 Hash 中的一个或多个字段。</p>
+                <pre>Long deletedCount = redisTemplate.opsForHash().delete("user:1001", "age", "address");</pre>
+            </div>
+
+            <div class="method" id="increment">
+                <h3><code>increment(H key, HK hashKey, long delta)</code></h3>
+                <p>对 Hash 中的数值进行增加操作。</p>
+                <pre>Long newValue = redisTemplate.opsForHash().increment("user:1001", "score", 1);</pre>
+            </div>
+
+            <div class="method" id="keys">
+                <h3><code>keys(H key)</code></h3>
+                <p>获取 Hash 中的所有字段名。</p>
+                <pre>Set&lt;Object&gt; fieldNames = redisTemplate.opsForHash().keys("user:1001");</pre>
+            </div>
+
+            <div class="method" id="size">
+                <h3><code>size(H key)</code></h3>
+                <p>获取 Hash 中字段的数量。</p>
+                <pre>Long size = redisTemplate.opsForHash().size("user:1001");</pre>
+            </div>
+
+            <div class="method" id="multiGet">
+                <h3><code>multiGet(H key, Collection&lt;HK&gt; hashKeys)</code></h3>
+                <p>批量获取 Hash 中多个字段的值。</p>
+                <pre>List&lt;String&gt; fields = Arrays.asList("name", "age");
+List&lt;Object&gt; values = redisTemplate.opsForHash().multiGet("user:1001", fields);</pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h2>方法目录</h2>
+        <ul>
+            <li><a href="#put">put(H key, HK hashKey, HV value)</a></li>
+            <li><a href="#get">get(H key, Object hashKey)</a></li>
+            <li><a href="#putAll">putAll(H key, Map&lt;...&gt; m)</a></li>
+            <li><a href="#entries">entries(H key)</a></li>
+            <li><a href="#hasKey">hasKey(H key, Object hashKey)</a></li>
+            <li><a href="#delete">delete(H key, Object... hashKeys)</a></li>
+            <li><a href="#increment">increment(H key, HK hashKey, long delta)</a></li>
+            <li><a href="#keys">keys(H key)</a></li>
+            <li><a href="#size">size(H key)</a></li>
+            <li><a href="#multiGet">multiGet(H key, Collection&lt;HK&gt; hashKeys)</a></li>
+        </ul>
+    </div>
+</body>
+</html>
