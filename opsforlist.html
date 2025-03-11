@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List 操作示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            max-width: calc(100% - 270px);
+            margin-right: 250px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .method {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        .method h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .method pre {
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+            font-weight: bold;
+        }
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            padding: 20px;
+            border-left: 1px solid #eee;
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #333;
+            font-family: Consolas, monospace;
+        }
+        .sidebar a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            <h1>Redis List 操作示例</h1>
+            
+            <div class="method" id="leftPush">
+                <h3><code>leftPush(K key, V value)</code></h3>
+                <p>从列表左侧插入元素</p>
+                <pre>redisTemplate.opsForList().leftPush("mylist", "value");</pre>
+            </div>
+            
+            <div class="method" id="rightPush">
+                <h3><code>rightPush(K key, V value)</code></h3>
+                <p>从列表右侧插入元素</p>
+                <pre>redisTemplate.opsForList().rightPush("mylist", "value");</pre>
+            </div>
+
+            <div class="method" id="leftPushAll">
+                <h3><code>leftPushAll(K key, Collection&lt;V&gt; values)</code></h3>
+                <p>从列表左侧批量插入多个元素</p>
+                <pre>List&lt;String&gt; values = Arrays.asList("value1", "value2", "value3");
+redisTemplate.opsForList().leftPushAll("mylist", values);</pre>
+            </div>
+
+            <div class="method" id="rightPushAll">
+                <h3><code>rightPushAll(K key, Collection&lt;V&gt; values)</code></h3>
+                <p>从列表右侧批量插入多个元素</p>
+                <pre>List&lt;String&gt; values = Arrays.asList("value1", "value2", "value3");
+redisTemplate.opsForList().rightPushAll("mylist", values);</pre>
+            </div>
+
+            <div class="method" id="range">
+                <h3><code>range(K key, long start, long end)</code></h3>
+                <p>获取列表指定范围的元素</p>
+                <pre>List&lt;String&gt; list = redisTemplate.opsForList().range("mylist", 0, -1);</pre>
+            </div>
+
+            <div class="method" id="size">
+                <h3><code>size(K key)</code></h3>
+                <p>获取列表长度</p>
+                <pre>Long size = redisTemplate.opsForList().size("mylist");</pre>
+            </div>
+
+            <div class="method" id="leftPop">
+                <h3><code>leftPop(K key)</code></h3>
+                <p>从列表左侧弹出一个元素</p>
+                <pre>String value = redisTemplate.opsForList().leftPop("mylist");</pre>
+            </div>
+
+            <div class="method" id="rightPop">
+                <h3><code>rightPop(K key)</code></h3>
+                <p>从列表右侧弹出一个元素</p>
+                <pre>String value = redisTemplate.opsForList().rightPop("mylist");</pre>
+            </div>
+
+            <div class="method" id="trim">
+                <h3><code>trim(K key, long start, long end)</code></h3>
+                <p>截取指定范围内的元素，保留范围内的元素，其他元素会被移除。</p>
+                <pre>redisTemplate.opsForList().trim("mylist", 0, 2);</pre>
+            </div>
+
+            <div class="method" id="remove">
+                <h3><code>remove(K key, long count, Object value)</code></h3>
+                <p>从指定 List 中移除与给定值相等的元素。count 参数控制移除的数量和方向：</p>
+                <ul>
+                    <li>count &gt; 0: 从头部开始向尾部移除 count 个与 value 相等的元素</li>
+                    <li>count &lt; 0: 从尾部开始向头部移除 count 个与 value 相等的元素</li>
+                    <li>count = 0: 移除所有与 value 相等的元素</li>
+                </ul>
+                <pre>redisTemplate.opsForList().remove("mylist", 1, "value");</pre>
+            </div>
+
+            <div class="method" id="index">
+                <h3><code>index(K key, long index)</code></h3>
+                <p>获取列表指定位置的元素</p>
+                <pre>String value = redisTemplate.opsForList().index("mylist", 0);</pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h2>方法目录</h2>
+        <ul>
+            <li><a href="#leftPush">leftPush(K key, V value)</a></li>
+            <li><a href="#rightPush">rightPush(K key, V value)</a></li>
+            <li><a href="#leftPushAll">leftPushAll(K key, Collection&lt;V&gt;)</a></li>
+            <li><a href="#rightPushAll">rightPushAll(K key, Collection&lt;V&gt;)</a></li>
+            <li><a href="#range">range(K key, long start, long end)</a></li>
+            <li><a href="#size">size(K key)</a></li>
+            <li><a href="#leftPop">leftPop(K key)</a></li>
+            <li><a href="#rightPop">rightPop(K key)</a></li>
+            <li><a href="#trim">trim(K key, long start, long end)</a></li>
+            <li><a href="#remove">remove(K key, long count, Object value)</a></li>
+            <li><a href="#index">index(K key, long index)</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RedisTemplate操作示例</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: #f4f4f4;
+            padding: 20px;
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            height: 100vh;
+        }
+        .menu-item {
+            cursor: pointer;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .menu-item:hover {
+            background: #ddd;
+        }
+        .submenu {
+            margin-left: 20px;
+            display: block; /* 修改为 block 使其默认显示 */
+        }
+        .submenu a {
+            display: block;
+            padding: 8px;
+            text-decoration: none;
+            color: #333;
+        }
+        .submenu a:hover {
+            background: #eee;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .menu-item.expanded::after {
+            content: " ▼";
+        }
+        .menu-item.collapsed::after {
+            content: " ►";
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="menu-item expanded" onclick="toggleSubMenu('redisOps')">Redis操作</div>
+        <div class="submenu" id="redisOps">
+            <a href="opsforvalue.html" target="contentFrame">opsForValue</a>
+            <a href="opsforlist.html" target="contentFrame">opsForList</a>
+            <a href="opsforhash.html" target="contentFrame">opsForHash</a>
+        </div>
+    </div>
+    <div class="content">
+        <iframe name="contentFrame" src="opsforvalue.html"></iframe>
+    </div>
+
+    <script>
+        function toggleSubMenu(id) {
+            const submenu = document.getElementById(id);
+            const menuItem = submenu.previousElementSibling;
+            if (submenu.style.display === 'none') {
+                submenu.style.display = 'block';
+                menuItem.classList.remove('collapsed');
+                menuItem.classList.add('expanded');
+            } else {
+                submenu.style.display = 'none';
+                menuItem.classList.remove('expanded');
+                menuItem.classList.add('collapsed');
+            }
+        }
+    </script>
+</body>
+</html>

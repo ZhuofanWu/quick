@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Value 操作示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            max-width: calc(100% - 270px);
+            margin-right: 250px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .method {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        .method h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .method pre {
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+            font-weight: bold;
+        }
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            padding: 20px;
+            border-left: 1px solid #eee;
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #333;
+            font-family: Consolas, monospace;
+        }
+        .sidebar a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            <h1>Redis Value 操作示例</h1>
+            
+            <div class="method" id="set">
+                <h3><code>set(K key, V value)</code></h3>
+                <p>设置键值对</p>
+                <pre>redisTemplate.opsForValue().set("key", "value");</pre>
+            </div>
+            
+            <div class="method" id="setEx">
+                <h3><code>setEx(K key, V value, long timeout, TimeUnit unit)</code></h3>
+                <p>设置键值对并指定过期时间</p>
+                <pre>redisTemplate.opsForValue().set("key", "value", 60, TimeUnit.SECONDS);</pre>
+            </div>
+
+            <div class="method" id="get">
+                <h3><code>get(K key)</code></h3>
+                <p>获取键对应的值</p>
+                <pre>String value = (String) redisTemplate.opsForValue().get("key");</pre>
+            </div>
+
+            <div class="method" id="increment">
+                <h3><code>increment(K key, long delta)</code></h3>
+                <p>数值递增</p>
+                <pre>Long newValue = redisTemplate.opsForValue().increment("counter", 1);</pre>
+            </div>
+
+            <div class="method" id="decrement">
+                <h3><code>decrement(K key, long delta)</code></h3>
+                <p>数值递减</p>
+                <pre>Long newValue = redisTemplate.opsForValue().decrement("counter", 1);</pre>
+            </div>
+
+            <div class="method" id="delete">
+                <h3><code>delete(K key)</code></h3>
+                <p>删除键值对</p>
+                <pre>Boolean deleted = redisTemplate.delete("key");</pre>
+            </div>
+
+            <div class="method" id="multiSet">
+                <h3><code>multiSet(Map&lt;? extends K, ? extends V&gt; map)</code></h3>
+                <p>批量设置多个键值对</p>
+                <pre>Map&lt;String, String&gt; map = new HashMap<>();
+map.put("key1", "value1");
+map.put("key2", "value2");
+redisTemplate.opsForValue().multiSet(map);</pre>
+            </div>
+
+            <div class="method" id="multiGet">
+                <h3><code>multiGet(Collection&lt;K&gt; keys)</code></h3>
+                <p>批量获取多个键的值</p>
+                <pre>List&lt;String&gt; keys = Arrays.asList("key1", "key2");
+List&lt;Object&gt; values = redisTemplate.opsForValue().multiGet(keys);</pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h2>方法目录</h2>
+        <ul>
+            <li><a href="#set">set(K key, V value)</a></li>
+            <li><a href="#setEx">setEx(K key, V value, timeout)</a></li>
+            <li><a href="#get">get(K key)</a></li>
+            <li><a href="#increment">increment(K key, delta)</a></li>
+            <li><a href="#decrement">decrement(K key, delta)</a></li>
+            <li><a href="#delete">delete(K key)</a></li>
+            <li><a href="#multiSet">multiSet(Map&lt;K, V&gt;)</a></li>
+            <li><a href="#multiGet">multiGet(Collection&lt;K&gt;)</a></li>
+        </ul>
+    </div>
+</body>
+</html>
